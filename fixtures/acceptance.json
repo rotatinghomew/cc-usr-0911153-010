@@ -1,0 +1,158 @@
+{
+  "scenario": "人工智能东盟出海组合准备度与风险治理台",
+  "synthetic": true,
+  "records": [
+    {
+      "record_id": "market_initiative-001",
+      "payload": {
+        "product_family": "product_family-0",
+        "target_country": "target_country-1",
+        "scenario_proof": 0.47,
+        "standard_gap": 0.58,
+        "partner_strength": 0.69,
+        "localization_effort": 21.5,
+        "delivery_capacity": 23.4,
+        "expected_revenue": 25.3,
+        "currency_risk": 0.36,
+        "policy_risk": 0.47,
+        "support_cost": 31.0,
+        "dependency_count": 32.9
+      },
+      "state": "screening",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "market_initiative-002",
+      "payload": {
+        "product_family": "product_family-1",
+        "target_country": "target_country-2",
+        "scenario_proof": 0.58,
+        "standard_gap": 0.69,
+        "partner_strength": 0.8,
+        "localization_effort": 25.2,
+        "delivery_capacity": 27.1,
+        "expected_revenue": 29.0,
+        "currency_risk": 0.47,
+        "policy_risk": 0.58,
+        "support_cost": 34.7,
+        "dependency_count": 36.6
+      },
+      "state": "screening",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "market_initiative-003",
+      "payload": {
+        "product_family": "product_family-2",
+        "target_country": "target_country-3",
+        "scenario_proof": 0.69,
+        "standard_gap": 0.8,
+        "partner_strength": 0.91,
+        "localization_effort": 28.9,
+        "delivery_capacity": 30.8,
+        "expected_revenue": 32.7,
+        "currency_risk": 0.58,
+        "policy_risk": 0.69,
+        "support_cost": 38.4,
+        "dependency_count": 40.3
+      },
+      "state": "screening",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "market_initiative-004",
+      "payload": {
+        "product_family": "product_family-3",
+        "target_country": "target_country-4",
+        "scenario_proof": 0.8,
+        "standard_gap": 0.91,
+        "partner_strength": 0.25,
+        "localization_effort": 32.6,
+        "delivery_capacity": 34.5,
+        "expected_revenue": 36.4,
+        "currency_risk": 0.69,
+        "policy_risk": 0.8,
+        "support_cost": 42.1,
+        "dependency_count": 44.0
+      },
+      "state": "screening",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "market_initiative-005",
+      "payload": {
+        "product_family": "product_family-4",
+        "target_country": "target_country-0",
+        "scenario_proof": 0.91,
+        "standard_gap": 0.25,
+        "partner_strength": 0.36,
+        "localization_effort": 36.3,
+        "delivery_capacity": 38.2,
+        "expected_revenue": 40.1,
+        "currency_risk": 0.8,
+        "policy_risk": 0.91,
+        "support_cost": 45.8,
+        "dependency_count": 47.7
+      },
+      "state": "screening",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "market_initiative-006",
+      "payload": {
+        "product_family": "product_family-0",
+        "target_country": "target_country-1",
+        "scenario_proof": 0.25,
+        "standard_gap": 0.36,
+        "partner_strength": 0.47,
+        "localization_effort": 40.0,
+        "delivery_capacity": 41.9,
+        "expected_revenue": 43.8,
+        "currency_risk": 0.91,
+        "policy_risk": 0.25,
+        "support_cost": 49.5,
+        "dependency_count": 51.4
+      },
+      "state": "screening",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "market_initiative-007",
+      "payload": {
+        "product_family": "product_family-1",
+        "target_country": "target_country-2",
+        "scenario_proof": 0.36,
+        "standard_gap": 0.47,
+        "partner_strength": 0.58,
+        "localization_effort": 43.7,
+        "delivery_capacity": 45.6,
+        "expected_revenue": 47.5,
+        "currency_risk": 0.25,
+        "policy_risk": 0.36,
+        "support_cost": 53.2,
+        "dependency_count": 55.1
+      },
+      "state": "screening",
+      "source": "synthetic-local-acceptance"
+    },
+    {
+      "record_id": "market_initiative-008",
+      "payload": {
+        "product_family": "product_family-2",
+        "target_country": "target_country-3",
+        "scenario_proof": 0.47,
+        "standard_gap": 0.58,
+        "partner_strength": 0.69,
+        "localization_effort": 47.4,
+        "delivery_capacity": 49.3,
+        "expected_revenue": 51.2,
+        "currency_risk": 0.36,
+        "policy_risk": 0.47,
+        "support_cost": 56.9,
+        "dependency_count": 58.8
+      },
+      "state": "screening",
+      "source": "synthetic-local-acceptance"
+    }
+  ]
+}
