@@ -60,7 +60,8 @@ def build_summary(records: list[DomainRecord], decisions: Mapping[str, Decision]
 
 
 def export_bundle(output: str | Path, records: list[DomainRecord], decisions: Mapping[str, Decision],
-                  snapshot: Mapping[str, Any], events: list[dict[str, Any]]) -> dict[str, Any]:
+                  snapshot: Mapping[str, Any], events: list[dict[str, Any]],
+                  attribution: Mapping[str, Any] | None = None) -> dict[str, Any]:
     root = ensure_output(output)
     summary = build_summary(records, decisions, snapshot)
     record_count = write_records(root / "records.csv", records, decisions)
@@ -71,6 +72,16 @@ def export_bundle(output: str | Path, records: list[DomainRecord], decisions: Ma
     manifest = {"files": {"summary.json": summary_hash, "decisions.json": decision_hash,
                            "audit-events.json": event_hash}, "record_rows": record_count,
                 "rule_rows": rule_count, "created_at": utc_now()}
+    # 关联风险归因进入董事会材料；无归因证据时写空骨架，避免材料与分析口径脱节。
+    attribution_body = attribution if attribution is not None else {
+        "generated_for": "related-risk attribution of existing portfolio exposure",
+        "portfolio_stress_loss": None,
+        "project_contributions": [],
+        "shared_events": [],
+        "applicability": {"scope": "no shared policy evidence registered yet"},
+    }
+    attribution_hash = write_json(root / "risk-attribution.json", attribution_body)
+    manifest["files"]["risk-attribution.json"] = attribution_hash
     manifest["manifest_hash"] = stable_hash(manifest)
     write_json(root / "manifest.json", manifest)
     return manifest

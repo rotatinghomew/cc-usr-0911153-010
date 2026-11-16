@@ -163,8 +163,23 @@ class EndToEndTests(unittest.TestCase):
     def test_manifest_lists_all_json_artifacts(self):
         run(FIXTURE, self.database, self.output)
         manifest = json.loads((self.output / "manifest.json").read_text(encoding="utf-8"))
-        self.assertEqual(set(manifest["files"]), {"summary.json", "decisions.json", "audit-events.json"})
+        self.assertEqual(set(manifest["files"]), {"summary.json", "decisions.json", "audit-events.json", "risk-attribution.json"})
         self.assertGreater(manifest["rule_rows"], 500)
+
+    def test_bundle_includes_hashed_risk_attribution(self):
+        run(FIXTURE, self.database, self.output)
+        attribution_path = self.output / "risk-attribution.json"
+        self.assertTrue(attribution_path.is_file())
+        attribution = json.loads(attribution_path.read_text(encoding="utf-8"))
+        self.assertIn("portfolio_stress_loss", attribution)
+        # 无共同事件证据时，共同冲击桶为零，所有压力损失（可能为零）归入单项目波动。
+        self.assertEqual(len(attribution["project_contributions"]), len(load_records()))
+        self.assertEqual(attribution["shared_events"], [])
+        stress = attribution["portfolio_stress_loss"]
+        self.assertEqual(stress["shared_observed"], 0.0)
+        self.assertEqual(stress["shared_bounded_mid"], 0.0)
+        self.assertEqual(stress["project_specific"], stress["total"])
+        self.assertEqual(verify_bundle(self.output), [])
 
     def test_records_csv_has_one_row_per_record(self):
         run(FIXTURE, self.database, self.output)

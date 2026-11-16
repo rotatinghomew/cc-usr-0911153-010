@@ -55,9 +55,12 @@ class Application:
         snapshot = self.repository.snapshot()
         if snapshot["chain_errors"]:
             raise ContractError("audit chain verification failed")
-        manifest = export_bundle(output, final_records, decisions, snapshot, self.repository.event_rows())
+        attribution = self.repository.risk_attribution()
+        manifest = export_bundle(output, final_records, decisions, snapshot,
+                                 self.repository.event_rows(), attribution)
         result = {"run_id": run_id, "fixture_hash": fixture_hash, "records": len(final_records),
-                  "decisions": len(decisions), "manifest": manifest, "snapshot": snapshot}
+                  "decisions": len(decisions), "manifest": manifest, "snapshot": snapshot,
+                  "risk_attribution": attribution}
         self.repository.finish_run(run_id, result)
         return result
 
@@ -67,6 +70,12 @@ class Application:
 
     def policy_impact(self, event_id: str) -> dict[str, Any]:
         return self.repository.policy_impact(event_id)
+
+    def risk_attribution(self) -> dict[str, Any]:
+        return self.repository.risk_attribution()
+
+    def evidence_correction_impact(self, event_id: str) -> dict[str, Any]:
+        return self.repository.evidence_correction_impact(event_id)
 
 
 def load_fixture(path: str | Path) -> dict[str, Any]:

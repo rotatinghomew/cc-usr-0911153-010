@@ -20,6 +20,11 @@ def parser() -> argparse.ArgumentParser:
     check.add_argument("--output", required=True)
     inspect = commands.add_parser("inspect")
     inspect.add_argument("--database", required=True)
+    attribute = commands.add_parser("attribute")
+    attribute.add_argument("--database", required=True)
+    correction = commands.add_parser("correction-impact")
+    correction.add_argument("--database", required=True)
+    correction.add_argument("--event", required=True)
     return root
 
 
@@ -29,6 +34,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         result = run(args.fixture, args.database, args.output)
     elif args.command == "verify":
         result = verify(args.database, args.output)
+    elif args.command == "attribute":
+        result = Application(args.database).risk_attribution()
+    elif args.command == "correction-impact":
+        result = Application(args.database).evidence_correction_impact(args.event)
     else:
         result = Application(args.database).inspect()
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))

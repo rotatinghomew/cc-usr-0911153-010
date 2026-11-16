@@ -9,6 +9,13 @@ from typing import Any, Iterator, Mapping, Sequence
 
 from export_portfolio.intake.initiative import Decision, DomainRecord, ContractError, canonical_json, stable_hash, utc_now
 from export_portfolio.governance.policy_register import prepare_policies, register_event, link_project, open_review, resolve_review, policy_impact
+from export_portfolio.governance.risk_attribution import (
+    attribute_portfolio,
+    evidence_correction_impact,
+    prepare_attribution,
+    register_association,
+    register_event_shock,
+)
 
 
 SCHEMA = """
@@ -85,6 +92,7 @@ class Repository:
         with self.connect() as connection:
             connection.executescript(SCHEMA)
             prepare_policies(connection)
+            prepare_attribution(connection)
 
     def register_policy(self, event_id: str, scope: str, description: str, evidence: dict[str, Any]) -> int:
         with self.transaction() as connection:
@@ -105,6 +113,23 @@ class Repository:
     def policy_impact(self, event_id: str) -> dict[str, Any]:
         with self.connect() as connection:
             return policy_impact(connection, event_id)
+
+    def register_policy_shock(self, event_id: str, grade: str,
+                              policy_delta: float, currency_delta: float) -> None:
+        with self.transaction() as connection:
+            register_event_shock(connection, event_id, grade, policy_delta, currency_delta)
+
+    def register_association_judgment(self, project_id: str, event_id: str, grade: str, **kwargs: Any) -> dict[str, Any]:
+        with self.transaction() as connection:
+            return register_association(connection, project_id, event_id, grade, **kwargs).as_dict()
+
+    def risk_attribution(self) -> dict[str, Any]:
+        with self.connect() as connection:
+            return attribute_portfolio(connection)
+
+    def evidence_correction_impact(self, event_id: str) -> dict[str, Any]:
+        with self.connect() as connection:
+            return evidence_correction_impact(connection, event_id)
 
     @contextmanager
     def transaction(self) -> Iterator[sqlite3.Connection]:
