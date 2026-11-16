@@ -65,6 +65,9 @@ class Application:
         return {"snapshot": self.repository.snapshot(), "records": [record.__dict__ for record in self.repository.list_records()],
                 "decisions": self.repository.decision_rows()}
 
+    def policy_impact(self, event_id: str) -> dict[str, Any]:
+        return self.repository.policy_impact(event_id)
+
 
 def load_fixture(path: str | Path) -> dict[str, Any]:
     try:

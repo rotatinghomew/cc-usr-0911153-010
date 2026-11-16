@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Iterator, Mapping, Sequence
 
 from export_portfolio.intake.initiative import Decision, DomainRecord, ContractError, canonical_json, stable_hash, utc_now
+from export_portfolio.governance.policy_register import prepare_policies, register_event, link_project, open_review, resolve_review, policy_impact
 
 
 SCHEMA = """
@@ -83,6 +84,27 @@ class Repository:
     def initialize(self) -> None:
         with self.connect() as connection:
             connection.executescript(SCHEMA)
+            prepare_policies(connection)
+
+    def register_policy(self, event_id: str, scope: str, description: str, evidence: dict[str, Any]) -> int:
+        with self.transaction() as connection:
+            return register_event(connection, event_id, scope, description, evidence)
+
+    def link_policy_project(self, project_id: str, event_id: str, exposure: float) -> None:
+        with self.transaction() as connection:
+            link_project(connection, project_id, event_id, exposure)
+
+    def open_policy_review(self, review_id: str, project_id: str, event_id: str) -> dict[str, Any]:
+        with self.transaction() as connection:
+            return open_review(connection, review_id, project_id, event_id)
+
+    def resolve_policy_review(self, review_id: str) -> dict[str, Any]:
+        with self.transaction() as connection:
+            return resolve_review(connection, review_id)
+
+    def policy_impact(self, event_id: str) -> dict[str, Any]:
+        with self.connect() as connection:
+            return policy_impact(connection, event_id)
 
     @contextmanager
     def transaction(self) -> Iterator[sqlite3.Connection]:
